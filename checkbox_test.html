@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input type="checkbox" class="notify" />
+    <label for="notify" style="display:none;">Would you like to receive notifications?</label><br />
+    <input type="checkbox" class="notify" />
+    <label for="notify">Would you like to receive newletters?</label><br />
+    <input type="checkbox" class="notify" />
+    <label for="notify">Would you like to receive emails?</label><br />
+    <button class="btn">Submit</button>
+
+
+    <script>
+        document.querySelector('.btn').addEventListener('click', function () {
+            console.log(document.querySelector('.notify').checked)
+        })
+
+        /*
+
+        document.querySelector('.notify').addEventListener('change', function () {
+            alert('hello')
+        })
+
+        */
+
+
+        document.querySelectorAll('.notify').forEach((n) => {
+            n.addEventListener('change', function () {
+                console.log(n.checked)
+            })
+        })
+
+        /* use checkbox in conjunction with deleteMany operation with toBeDeleted as the flag (within DB)*/
+        /* usage: deleteMany({toBeDeleted:true}) */
+    </script>
+</body>
+</html>

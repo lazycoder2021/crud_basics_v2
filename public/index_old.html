@@ -1,0 +1,1006 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: 'Open Sans';
+        }
+
+        .contacts_container, favs_container {
+            position: relative;
+        }
+
+        .message, .message1, .message2, .message3, .message4, .message5, .message6{
+            border: 1px solid black;
+            position: absolute;
+            height: 5%;
+            width: 85%;
+            margin: 10px auto;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: green;
+            color: white;
+        }
+
+        .contacts_container, .add_contacts_form, .add_contacts_form1, .add_contacts_form2, .contact_details, .favs_container {
+            border: 1px solid black;
+            width: 400px;
+            height: 80vh;
+            margin: 100px auto 0px;
+            padding: 10px;
+            background-color: whitesmoke;
+        }
+
+        .header {
+            //border:1px solid red;
+            text-align: center;
+        }
+
+        .buttons {
+            text-align: right;
+            //border:1px solid black;
+        }
+
+        .plus_icon, .search_icon {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .user_icon, .fav_user {
+            padding: 2px 2px;
+            color: green;
+        }
+
+        
+
+
+        .contact {
+            width: 380px;
+            border: 1px solid black;
+            height: 30px;
+            margin: 5px 0px;
+            background-color: white;
+            cursor: pointer;
+            padding: 3px 2px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .edit_icon {
+            color: grey;
+            cursor: pointer;
+        }
+
+        .del_icon {
+            color: red;
+            cursor: pointer;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0px;
+            //border-radius: 4px;
+            outline: none;
+            border-bottom: 1px solid black;
+            border-right: 0px solid black;
+            border-left: 0px solid black;
+            border-top: 0px solid black;
+        }
+
+        form button {
+            width: 100%;
+            padding: 5px;
+            margin-top: 30px;
+            background-color: green;
+            color: white;
+            cursor: pointer;
+        }
+
+        .back_btn, .back_btn1, .back_btn2, .back_btn3, .fav_btn, .back_btn4 {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin-top: 20px;
+            background-color: green;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .refresh_icon {
+            cursor: pointer;
+        }
+
+        .search_term{
+            border-right:none; 
+        }
+
+        .search_btn{
+            border:2px solid black;
+            font-size:13px;
+            cursor:pointer; 
+        }
+
+        .contact_details{
+            
+        }
+
+        .user_details h2{
+            border:1px solid black;
+            font-weight:100; 
+            font-size:20px;
+        }
+
+        .fetchName, .fetchPhone, .fetchEmail, .fetchAltPhone{
+            margin-right:100px;
+            display:inline-block;
+        }
+
+        .view_favs{
+            cursor:pointer; 
+            background-color:black; 
+            color:white; 
+            border-radius:4px;
+        }
+
+        .favs_child{
+            border:1px solid black;
+            margin-bottom:7px;
+        }
+
+        .remove{
+            border:1px solid black;
+            display:inline-block;
+            float:right;
+            margin-right:10px;
+            background-color:tomato;
+            color:white;
+            cursor:pointer; 
+            border-radius:4px;
+            padding:2px;
+            font-size:13px;
+            
+        }
+
+        .fav_name{
+            //margin-right:30px;
+        }
+
+        .bulk_del{
+            border:1px solid black;
+            width:100px;
+            text-align:center; 
+            border-radius:4px;
+            font-size:14px;
+            background-color:red;
+            color:white; 
+            cursor:pointer; 
+            margin-top:10px;
+        }
+
+        .fav_text{
+            border:0px solid black;
+        }
+
+        .sort_icon_1 {
+            float: left;
+            margin-left: 3px;
+            cursor:pointer; 
+        }
+        
+        .logout{
+            border:1px solid black;
+            width:80px;
+            text-align:center; 
+            background-color:green;
+            color:white;
+            cursor:pointer; 
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="contacts_container">
+        <div class="logout">Logout</div>
+        <div class="header">
+            <h3>Phone</h3>
+            <p><span class="count"></span> contacts with phone numbers</p>
+            <p><span class="count">Click</span> refresh icon to reload screen</p>
+        </div>
+        <div class="buttons" style="margin-top:20px;">
+            <i class="fa fa-arrow-circle-o-up sort_icon_1 up" style="font-size:28px;"></i>
+            <i class="fa fa-arrow-circle-o-down sort_icon_1 down" style="font-size:28px;"></i>
+            <span style="font-size:13px;border:1px solid black;padding:2px;" class="view_favs">View Favorites</span>
+            <i class="fa fa-plus plus_icon"></i>
+            <input type="text" style="width:150px" class="search_term hide" /><span class="search_btn hide">Search</span>
+            <i class="fa fa-search search_icon"></i>
+            <i class="fa fa-refresh refresh_icon"></i>
+        </div>
+        <div class="contacts">
+            &nbsp;
+
+        </div>
+        <div class="bulk_del hide">Bulk Delete</div>
+        <div class="message hide">message dialog</div>
+        <div class="message3 hide">message dialog</div>
+        <div class="message6 hide">message dialog</div>
+
+    </div>
+    <div class="contact_details hide">
+        <div class="user_photo">
+            <center><i class="fa fa-user-circle user_icon" style="font-size:80px"></i></center>
+        </div>
+        <div class="user_details" style="margin-top:30px;">
+            <h2>Name:&nbsp;<span class="fetchName"></span></h2>
+            <h2>Phone:&nbsp;<span class="fetchPhone"></span></h2>
+            <h2>Alternate Phone:&nbsp;<span class="fetchAltPhone"></span></h2>
+            <h2>Email:&nbsp;<span class="fetchEmail"></span></h2>
+        </div>
+        <a href="#" class="back_btn2">Back to Contacts</a>
+        <a href="#" class="fav_btn fav">Add to Favorites</a>
+        <div class="message5 hide">message dialog</div>
+    </div>
+
+    <div class="favs_container hide">
+        <div class="favs_parent">
+            <div class="fav_text" style="border:1px solid black;text-align:center;"></div>
+        </div>
+        <a href="#" class="back_btn4">Back to Contacts</a>
+    </div>
+
+    <form class="add_contacts_form hide" method="POST" action="/">
+        <input type="text" placeholder="Name" class="name" />
+        <input type="text" placeholder="Phone Number" class="phone" />
+        <input type="text" placeholder="Alternate Phone Number" class="alt_phone" />
+        <input type="text" placeholder="Email" class="email" />
+        <button type="submit">Add Contact</button>
+        <div>
+            <a href="#" class="back_btn">Back to Contacts</a>
+        </div>
+        <div class="message1 hide">message dialog</div>
+    </form>
+
+
+    <form class="add_contacts_form1 hide" method="" action="/">
+        <input type="text" placeholder="Name" class="name1" />
+        <input type="text" placeholder="Phone Number" class="phone1" />
+        <input type="text" placeholder="Alternate Phone Number" class="alt_phone1" />
+        <input type="text" placeholder="Email" class="email1" />
+        <button type="submit">Update Contact</button>
+        <div>
+            <a href="#" class="back_btn1">Back to Contacts</a>
+        </div>
+        <div class="message2 hide">message dialog</div>
+    </form>
+
+
+    <form class="add_contacts_form2 hide" method="" action="/">
+        <input type="text" placeholder="Name" class="name2" />
+        <input type="text" placeholder="Phone Number" class="phone2" />
+        <input type="text" placeholder="Alternate Phone Number" class="alt_phone2" />
+        <input type="text" placeholder="Email" class="email2" />
+        <button type="submit">Update Contact</button>
+        <div>
+            <a href="#" class="back_btn3">Back to Contacts</a>
+        </div>
+        <div class="message4 hide">message dialog</div>
+    </form>
+
+    <script>
+
+        var uid;
+        window.addEventListener('DOMContentLoaded', function () {
+            //console.log(localStorage.getItem('userId'))
+            var uid = localStorage.getItem('userId');
+            console.log(uid)
+
+            fetch(`http://localhost:3000/${uid}/read`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                
+            }).then((res) => {
+                return res.json();
+            }).then((data) => {
+                console.log(data.contacts)
+                
+
+
+                document.querySelector('.count').innerHTML = data.contacts.length;
+                if (data.contacts.length == '') {
+                    document.querySelector('.bulk_del').classList.add('hide')
+                } else {
+                    document.querySelector('.bulk_del').classList.remove('hide')
+                }
+
+                var data = data.contacts;
+                console.log(data)
+                data.forEach((d) => {
+                    document.querySelector('.contacts').innerHTML += `
+                                    <div class="contact" data-id=${d._id}>
+                                           <div class="left">
+                                             <label for="contact_selection" style="display:none";></label>
+                                             <input type="checkbox" class="contact_selection"/>
+                                             <i class="fa fa-user-circle user_icon" style="font-size:20px"></i>
+                                             <span class="names">${d.name}</span>
+                                           </div>
+                                           <div class="right">
+                                             <i class="fa fa-pencil edit_icon" style="font-size:20px"></i>
+                                             <i class="fa fa-trash del_icon" style="font-size:20px"></i>
+                                           </div>
+                                     </div>
+                                `;
+
+                    document.querySelectorAll('.edit_icon').forEach((ei) => {
+                        ei.addEventListener('click', function (e) {
+                            //console.log(e.target.parentElement.parentElement.dataset.id)
+                            var contactId = e.target.parentElement.parentElement.dataset.id;
+                            console.log(contactId);
+                            fetch(`http://localhost:3000/read/${contactId}`)
+                                .then((res) => {
+                                    return res.json()
+                                }).then((data) => {
+                                    console.log(data.contact.name)
+                                    console.log(data.contact.phone)
+                                    console.log(data.contact._id)
+                                    document.querySelector('.add_contacts_form1').classList.remove('hide');
+                                    document.querySelector('.contacts_container').classList.add('hide');
+                                    document.querySelector('.name1').value = data.contact.name;
+                                    document.querySelector('.phone1').value = data.contact.phone;
+                                    document.querySelector('.alt_phone1').value = data.contact.alternate_phone;
+                                    document.querySelector('.email1').value = data.contact.email;
+                                    document.querySelector('.add_contacts_form1').setAttribute('data-id', data.contact._id);
+
+
+
+                                })
+
+                        })
+                    })
+
+                    document.querySelectorAll('.del_icon').forEach((ei) => {
+                        ei.addEventListener('click', function (e) {
+                            //alert('hello')
+                            //console.log(e.target.parentElement.parentElement.dataset.id)
+                            var contactId = e.target.parentElement.parentElement.dataset.id;
+                            console.log(contactId);
+                            fetch(`http://localhost:3000/delete/${contactId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                }
+                            })
+                                .then((res) => {
+                                    return res.json()
+                                })
+                                .then((data) => {
+                                    console.log(data)
+                                    document.querySelector('.message').classList.remove('hide');
+                                    document.querySelector('.message').innerText = 'Contact Deleted Successfully';
+                                    setInterval(() => {
+                                        document.querySelector('.message').classList.add('hide');
+                                    }, 2000)
+                                })
+
+                        })
+                    })
+
+                    document.querySelectorAll('.names').forEach((n) => {
+                        n.addEventListener('click', function (e) {
+                            //console.log(e.target.parentElement.parentElement.dataset.id)
+                            var user_id = e.target.parentElement.parentElement.dataset.id;
+                            console.log(user_id)
+                            passId(user_id)
+
+                            document.querySelector('.contacts_container').classList.add('hide');
+                            document.querySelector('.contact_details').classList.remove('hide');
+                            fetch(`http://localhost:3000/read/${user_id}`)
+                                .then((res) => {
+                                    return res.json()
+                                })
+                                .then((data) => {
+                                    console.log(data.contact)
+                                    document.querySelector('.fetchName').innerText = data.contact.name;
+                                    document.querySelector('.fetchPhone').innerText = data.contact.phone;
+                                    document.querySelector('.fetchAltPhone').innerText = data.contact.alternate_phone;
+                                    document.querySelector('.fetchEmail').innerText = data.contact.email;
+
+
+                                })
+
+                        })
+                    })
+
+                    document.querySelectorAll('.contact_selection').forEach((cs) => {
+                        cs.addEventListener('change', function (e) {
+                            var u1 = e.target.parentElement.parentElement.dataset.id;
+                            console.log(u1)
+                            if (cs.checked) {
+                                //alert('trying checkbox for 1st time')
+                                //console.log(e.target.parentElement.parentElement.dataset.id)
+                                
+                                fetch(`http://localhost:3000/selectuser/${u1}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        toBeDeleted: true
+                                    })
+                                }).then((res) => {
+                                    return res.json()
+                                }).then((data) => {
+                                    console.log(data)
+                                })
+
+                            } else {
+                                fetch(`http://localhost:3000/deselectuser/${u1}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        toBeDeleted: false
+                                    })
+                                }).then((res) => {
+                                    return res.json()
+                                }).then((data) => {
+                                    console.log(data)
+                                })
+
+                            }
+
+
+                         })
+                    })
+
+
+                })
+
+            })
+        })
+
+
+        document.querySelector('.plus_icon').addEventListener('click', function () {
+            //alert('hii...')
+            document.querySelector('.contacts_container').classList.add('hide');
+            document.querySelector('.contact_details').classList.add('hide');
+            document.querySelector('.add_contacts_form').classList.remove('hide');
+
+        })
+
+        document.querySelector('.back_btn').addEventListener('click', function () {
+            //alert('hii...')
+            document.querySelector('.contacts_container').classList.remove('hide');
+            document.querySelector('.add_contacts_form').classList.add('hide');
+
+        })
+
+        document.querySelector('.back_btn1').addEventListener('click', function () {
+            //alert('hii...')
+            document.querySelector('.contacts_container').classList.remove('hide');
+            document.querySelector('.add_contacts_form1').classList.add('hide');
+
+        })
+
+        document.querySelector('.back_btn2').addEventListener('click', function () {
+            //alert('hii...')
+            document.querySelector('.contact_details').classList.add('hide');
+            document.querySelector('.add_contacts_form2').classList.add('hide');
+            document.querySelector('.contacts_container').classList.remove('hide');
+            
+            
+            
+        })
+
+        document.querySelector('.back_btn3').addEventListener('click', function () {
+            //alert('hii...')
+            //document.querySelector('.contact_details').classList.add('hide');
+            document.querySelector('.contacts_container').classList.remove('hide');
+            document.querySelector('.add_contacts_form2').classList.add('hide');
+
+
+        })
+
+        function update(userId) {
+            console.log(userId)
+            document.querySelector('.add_contacts_form2').addEventListener('submit', function (e) {
+                e.preventDefault();
+                //alert('hi...')
+
+                fetch(`http://localhost:3000/update/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: document.querySelector('.name2').value,
+                        phone: document.querySelector('.phone2').value,
+                        alternate_phone: document.querySelector('.alt_phone2').value,
+                        email: document.querySelector('.email2').value
+                    })
+                }).then((res) => {
+                    return res.json()
+                }).then((data) => {
+                    console.log(data)
+                    
+                    document.querySelector('.message4').classList.remove('hide');
+                    document.querySelector('.message4').innerText = 'Contact Updated Successfully';
+                    setInterval(() => {
+                        document.querySelector('.message4').classList.add('hide');
+                    }, 2000)
+                    
+                })
+
+
+
+            })
+        }
+
+        
+
+        document.querySelector('.add_contacts_form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            //alert(document.querySelector('.name').value + document.querySelector('.phone').value)
+            const uid_101 = localStorage.getItem('userId');
+            console.log(uid_101)
+            fetch('http://localhost:3000/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: document.querySelector('.name').value,
+                    phone: document.querySelector('.phone').value,
+                    alternate_phone: document.querySelector('.alt_phone').value,
+                    email: document.querySelector('.email').value,
+                    userId: localStorage.getItem('userId')
+                })
+            }).then((res) => {
+                return res.json();
+            }).then((data) => {
+                console.log(data)
+                document.querySelector('.message1').classList.remove('hide');
+                document.querySelector('.message1').innerText = 'Contact Added Successfully';
+                setInterval(() => {
+                    document.querySelector('.message1').classList.add('hide');
+                }, 2000)
+
+            })
+
+        })
+
+
+
+        document.querySelector('.add_contacts_form1').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var contactId = e.target.dataset.id;
+            console.log(contactId)
+
+
+            fetch(`http://localhost:3000/update/${contactId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: document.querySelector('.name1').value,
+                    phone: document.querySelector('.phone1').value,
+                    alternate_phone: document.querySelector('.alt_phone1').value,
+                    email: document.querySelector('.email1').value
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                console.log(data)
+                document.querySelector('.message2').classList.remove('hide');
+                document.querySelector('.message2').innerText = 'Contact Updated Successfully';
+                setInterval(() => {
+                    document.querySelector('.message2').classList.add('hide');
+                }, 2000)
+            })
+
+
+
+
+        })
+
+
+
+
+        document.querySelector('.refresh_icon').addEventListener('click', function () {
+            window.location.reload();
+        })
+
+        document.querySelector('.search_icon').addEventListener('click', function () {
+            //alert('searching...')
+            document.querySelector('.search_term').classList.toggle('hide');
+            document.querySelector('.search_btn').classList.toggle('hide');
+        })
+
+        document.querySelector('.search_btn').addEventListener('click', function () {
+            var searchTerm = document.querySelector('.search_term').value;
+            console.log(searchTerm.toLowerCase())
+            var contactList = Array.from(document.querySelectorAll('.contact'));
+            console.log(contactList)
+
+
+
+
+
+            if (searchTerm.length > 0) {
+                var result = contactList.filter((s) => {
+                    return s.innerText.toLowerCase().includes(searchTerm)
+                })
+                console.log(result[0].dataset.id)
+                var userId = result[0].dataset.id;
+                console.log(result[0].innerText);
+
+
+                if (result.length > 0) {
+                    document.querySelector('.contacts').innerHTML = '';
+                    document.querySelector('.contacts').innerHTML += `<div class="contact">
+                                <div class="left">
+                                    <i class="fa fa-user-circle user_icon" style="font-size:20px"></i>
+                                    <span>${result[0].innerText}</span>
+                                </div>
+                                <div class="right">
+                                    <i class="fa fa-pencil edit_icon ei" style="font-size:20px"></i>
+                                    <i class="fa fa-trash del_icon di" style="font-size:20px"></i>
+                                </div>
+                            </div>`;
+
+                }
+
+                document.querySelector('.ei').addEventListener('click', function () {
+                    //alert(userId)
+                    document.querySelector('.add_contacts_form2').classList.remove('hide'); 
+                    document.querySelector('.contacts_container').classList.add('hide'); 
+                    fetch(`http://localhost:3000/read/${userId}`)
+                        .then((res) => {
+                            return res.json(); 
+                        })
+                        .then((data) => {
+                            console.log(data.contact)
+                            document.querySelector('.name2').value = data.contact.name;  
+                            document.querySelector('.phone2').value = data.contact.phone; 
+                            document.querySelector('.alt_phone2').value = data.contact.alternate_phone; 
+                            document.querySelector('.email2').value = data.contact.email; 
+                        })
+
+                    /* SHOULD CONTINUE FROM HERE */
+
+                    update(userId)
+
+
+                })
+
+                document.querySelector('.di').addEventListener('click', function () {
+                    //alert(userId)
+                    fetch(`http://localhost:3000/delete/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        }
+                    }).then((res) => {
+                        return res.json()
+                    }).then((data) => {
+                        console.log(data)
+                        document.querySelector('.message3').classList.remove('hide');
+                        document.querySelector('.message3').innerText = 'Contact Deleted Successfully';
+                        setInterval(() => {
+                            document.querySelector('.message3').classList.add('hide');
+                        }, 2000)
+                    })
+
+
+                })
+
+            }
+
+
+
+        })
+
+        
+
+
+
+
+        document.querySelector('.fav').addEventListener('click', function () {
+            
+            //alert('adding to favs...')
+
+            
+            console.log(uid)
+
+            //LINE NO 722 --- FOR REMOVE FAV DUPLICATION
+
+            
+
+            fetch(`http://localhost:3000/update/${uid}`, {
+                method: 'PUT', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Accept': 'application/json', 
+                },
+                body: JSON.stringify({
+                    isFavorite: true
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                console.log(data)
+                
+
+                document.querySelector('.message5').classList.remove('hide');
+                document.querySelector('.message5').innerText = 'Contact Added to Favorites';
+                setInterval(() => {
+                    document.querySelector('.message5').classList.add('hide');
+                }, 2000)
+                
+            })
+            
+
+        })
+
+        function passId(id) {
+            //alert(id)
+            uid = id; 
+           
+        }
+
+        document.querySelector('.view_favs').addEventListener('click', function () {
+            //alert('fav list')
+            console.log(localStorage.getItem('userId')); 
+            var aid = localStorage.getItem('userId')
+            document.querySelector('.contacts_container').classList.add('hide'); 
+            document.querySelector('.favs_container').classList.remove('hide'); 
+
+            fetch(`http://localhost:3000/${aid}/favorites`)
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                    console.log(data.favs)
+                    console.log(data.favs.length)
+                     
+                    if (data.favs.length == '') {
+                        document.querySelector('.fav_text').innerHTML = 'No Favorites Added To The List';
+                    } else {
+                        document.querySelector('.fav_text').innerHTML = '';
+                    }
+
+                                        
+                    var favourites = data.favs;
+                        favourites.forEach((f) => {
+                            document.querySelector('.favs_parent').innerHTML += `
+                            <div class="favs_child" data-uid=${f._id}>
+                                <i class="fa fa-user-circle fav_user"></i>
+                                <span class="fav_name">${f.name}</span>
+                                <span class="remove">Remove</span>
+                            </div>
+                        `;
+
+                            document.querySelectorAll('.remove').forEach((user) => {
+                                user.addEventListener('click', function (e) {
+                                    //alert('remove user from fav...')
+                                    console.log(e.target.parentElement.dataset.uid)
+                                    const uid1 = e.target.parentElement.dataset.uid;
+                                    fetch(`http://localhost:3000/update/${uid1}`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Accept': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            isFavorite: false
+                                        })
+                                    }).then((res) => {
+                                        return res.json()
+                                    }).then((data) => {
+                                        console.log(data)
+                                        window.location.reload();
+                                    })
+                                })
+                            })
+                        })
+                    
+
+                    
+                })
+
+
+
+            
+        })
+
+        document.querySelector('.back_btn4').addEventListener('click', function () {
+            document.querySelector('.favs_container').classList.add('hide'); 
+            document.querySelector('.contacts_container').classList.remove('hide'); 
+        })
+
+        
+
+
+        document.querySelector('.bulk_del').addEventListener('click', function () {
+            
+            fetch('http://localhost:3000/removeselectedusers', {
+                method: 'DELETE', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Accept': 'application/json', 
+                }
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                console.log(data)
+                console.log(data.removedUsers.deletedCount)
+                if (data.removedUsers.deletedCount == 0) {
+                    document.querySelector('.message6').classList.remove('hide');
+                    document.querySelector('.message6').innerText = 'Nothing to be Deleted';
+                    setInterval(() => {
+                        document.querySelector('.message6').classList.add('hide');
+                    }, 2000)
+                } else {
+                    document.querySelector('.message6').classList.remove('hide');
+                    document.querySelector('.message6').innerText = 'Bulk Deletion Successful';
+                    setInterval(() => {
+                        document.querySelector('.message6').classList.add('hide');
+                    }, 2000)
+                }
+
+                
+            })
+        })
+
+
+        document.querySelector('.up').addEventListener('click', function () {
+            //alert('going up')
+            var uid = localStorage.getItem('userId');
+            console.log(uid)
+            fetch(`http://localhost:3000/${uid}/read?sort=true`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+
+            }).then((res) => {
+                return res.json();
+            }).then((data) => {
+                console.log(data.contacts)
+
+
+
+                document.querySelector('.count').innerHTML = data.contacts.length;
+                if (data.contacts.length == '') {
+                    document.querySelector('.bulk_del').classList.add('hide')
+                } else {
+                    document.querySelector('.bulk_del').classList.remove('hide')
+                }
+
+                var data = data.contacts;
+                console.log(data)
+                document.querySelector('.contacts').innerHTML = '';
+                data.forEach((d) => {
+                    document.querySelector('.contacts').innerHTML += `
+                                    <div class="contact" data-id=${d._id}>
+                                           <div class="left">
+                                             <label for="contact_selection" style="display:none";></label>
+                                             <input type="checkbox" class="contact_selection"/>
+                                             <i class="fa fa-user-circle user_icon" style="font-size:20px"></i>
+                                             <span class="names">${d.name}</span>
+                                           </div>
+                                           <div class="right">
+                                             <i class="fa fa-pencil edit_icon" style="font-size:20px"></i>
+                                             <i class="fa fa-trash del_icon" style="font-size:20px"></i>
+                                           </div>
+                                     </div>
+                                `;
+
+
+                })
+            })
+
+        })
+
+        document.querySelector('.down').addEventListener('click', function () {
+            //alert('going down')
+
+            var uid = localStorage.getItem('userId'); 
+            
+
+            fetch(`http://localhost:3000/${uid}/read?sort=false`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+
+            }).then((res) => {
+                return res.json();
+            }).then((data) => {
+                console.log(data.contacts)
+
+
+
+                document.querySelector('.count').innerHTML = data.contacts.length;
+                if (data.contacts.length == '') {
+                    document.querySelector('.bulk_del').classList.add('hide')
+                } else {
+                    document.querySelector('.bulk_del').classList.remove('hide')
+                }
+
+                var data = data.contacts;
+                console.log(data)
+                document.querySelector('.contacts').innerHTML = '';
+                data.forEach((d) => {
+                    document.querySelector('.contacts').innerHTML += `
+                                    <div class="contact" data-id=${d._id}>
+                                           <div class="left">
+                                             <label for="contact_selection" style="display:none";></label>
+                                             <input type="checkbox" class="contact_selection"/>
+                                             <i class="fa fa-user-circle user_icon" style="font-size:20px"></i>
+                                             <span class="names">${d.name}</span>
+                                           </div>
+                                           <div class="right">
+                                             <i class="fa fa-pencil edit_icon" style="font-size:20px"></i>
+                                             <i class="fa fa-trash del_icon" style="font-size:20px"></i>
+                                           </div>
+                                     </div>
+                                `;
+
+
+                })
+            })
+        })
+
+
+        document.querySelector('.logout').addEventListener('click', async function () {
+            localStorage.clear(); 
+            
+            await fetch('http://localhost:3000/logout')
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                })
+            window.location.href = '/'; 
+        })
+
+
+    </script>
+</body>
+</html>

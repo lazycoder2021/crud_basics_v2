@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+
+        .wrapper, .register-form, .login-form {
+            border: 1px solid black;
+            width: 400px;
+            height: 80vh;
+            margin: 100px auto 0px;
+            padding: 10px;
+            background-color: whitesmoke;
+        }
+
+        .register-form, .login-form{
+            display:flex;
+            flex-direction:column;  
+        }
+
+        .register-form input {
+            padding:4px;
+            margin-bottom:15px;
+            font-weight:900; 
+        }
+
+            .login-form input {
+                padding: 4px;
+                margin-bottom: 15px;
+                font-weight: 900;
+            }
+
+
+
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: 'Open Sans';
+        }
+
+        .wrapper-buttons {
+            //border:1px solid black;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+
+
+        .login, .register {
+            font-size: 16px;
+            padding: 10px 5px;
+            border: 1px solid black;
+            display: inline-block;
+            width: 300px;
+            cursor: pointer;
+        }
+
+            .login:hover, .register:hover {
+                background-color: green;
+                color: white;
+            }
+
+        .wrapper-buttons a {
+            text-decoration: none;
+            color: black;
+        }
+
+            .wrapper-buttons a:hover {
+                color: white;
+            }
+
+        .hide {
+            display: none;
+        }
+
+        .reg-btn, .log-btn{
+            margin-top:10px;
+            padding:4px;
+            font-size:16px;
+            background-color:green; 
+            color:white; 
+            outline:none; 
+            border:none; 
+            cursor:pointer; 
+        }
+
+        .success, .success1{
+            border:1px solid black;
+            padding:10px; 
+            width:300px;
+            text-align:center; 
+            margin-top:30px;
+            background-color:green;
+            color:white; 
+        }
+
+        .warning, .warning1 {
+            border: 1px solid black;
+            padding: 10px;
+            width: 300px;
+            text-align: center;
+            margin-top: 30px;
+            background-color: tomato;
+            color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="wrapper-container">
+            <div class="wrapper-title" style="text-align:center;margin-top:150px;">
+                <h2 style="font-size:40px;">Contacts Manager</h2>
+                <p>All your contacts, in one place, safe and secure.</p>
+            </div>
+            <div class="wrapper-buttons">
+                <span class="login">Login</span>
+                <span class="register">Register</span>
+            </div>
+            
+        </div>
+    </div>
+
+    <form class="register-form hide">
+        <center style="margin-bottom:20px;">
+            <i class="fa fa-user-circle user_icon" style="font-size:120px;color:green;"></i>
+            <h3>Register</h3>
+        </center>
+        <label for="email">Email</label>
+        <input type="email" class="email" />
+        <label for="password">Password</label>
+        <input type="password" class="password" />
+        <button class="reg-btn">Register</button>
+        <a href="" style="display:inline-block; margin-top:15px;" class="goback1">Go Back</a>
+        <center>
+            <div class="success hide">
+                <span>Registration Successful</span>
+            </div>
+            <div class="warning1 hide">
+                <span>Registration Error</span>
+            </div>
+        </center>
+    </form>
+
+    <form class="login-form hide">
+        <center style="margin-bottom:20px;">
+
+            <i class="fa fa-user-circle user_icon" style="font-size:120px;color:green;"></i>
+            <h3>Login</h3>
+        </center>
+        <label for="email1">Email</label>
+        <input type="text" class="email1" />
+        <label for="password1">Password</label>
+        <input type="password" class="password1" />
+        <button class="log-btn">Login</button>
+        <a href="" style="display:inline-block; margin-top:15px;" class="goback2">Go Back</a>
+        <center>
+            <div class="success1 hide">
+                <span>Login Successful</span>
+            </div>
+        </center>
+        <center>
+            <div class="warning hide">
+                <span>Login Error</span>
+            </div>
+        </center>
+        <a href="index_old.html" class="cont hide">Click to Continue</a>
+    </form>
+
+    
+
+    <script>
+        document.querySelector('.register').addEventListener('click', function () {
+            document.querySelector('.wrapper').classList.add('hide');
+            document.querySelector('.register-form').classList.remove('hide');
+        })
+
+
+        document.querySelector('.login').addEventListener('click', function () {
+            document.querySelector('.wrapper').classList.add('hide');
+            document.querySelector('.login-form').classList.remove('hide');
+        })
+
+        document.querySelector('.register-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            //alert(document.querySelector('.email').value + document.querySelector('.password').value)
+            fetch('http://localhost:3000/register', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: document.querySelector('.email').value, 
+                    password: document.querySelector('.password').value
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                console.log(data)
+                if (data.msg == "registration successful") {
+                    document.querySelector('.success').classList.remove('hide');
+                    setInterval(() => {
+                        document.querySelector('.success').classList.add('hide');
+                    }, 2000)
+                } else {
+                    if (data.msg.name == 'ValidationError')
+                    //alert('somthing went wrong')
+                    document.querySelector('.warning1').classList.remove('hide');
+                    setInterval(() => {
+                        document.querySelector('.warning1').classList.add('hide');
+                    }, 2000)
+
+                }
+                
+            })
+        })
+
+        document.querySelector('.login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            //alert(document.querySelector('.email1').value + document.querySelector('.password1').value)
+            
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: document.querySelector('.email1').value,
+                    password: document.querySelector('.password1').value
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                console.log(data)
+                if (data.msg == 'passwords do not match' || data.msg == 'user does not exist') {
+                    document.querySelector('.warning').classList.remove('hide');
+                    setInterval(() => {
+                        document.querySelector('.warning').classList.add('hide');
+                    }, 2000)
+
+                } else {
+                    //document.querySelector('.goback2').classList.add('hide');
+                    localStorage.setItem('userId', data.userExists._id)
+                    document.querySelector('.success1').classList.remove('hide');
+                    document.querySelector('.cont').classList.remove('hide'); 
+                     setInterval(() => {
+                        document.querySelector('.success1').classList.add('hide');
+                    }, 2000)
+                    
+                }
+
+                
+            })
+            
+        })
+
+    </script>
+</body>
+</html>
